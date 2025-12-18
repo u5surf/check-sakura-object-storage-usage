@@ -33,27 +33,40 @@ type Response struct {
 	Data Data `json:"data"`
 }
 
-type APIClient struct {
-	url string
+type APIClient interface {
+	GetUsage() (*Usage, error)
 }
 
-func (a *APIClient) SetURL(site, bucket string) {
-	a.url = fmt.Sprintf("https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/%s/v2/buckets/%s/penalty", site, bucket)
+type ObjectStorageAPI struct {
+	url    string
+	key    string
+	secret string
 }
 
-func (a *APIClient) GetUsage(key, secret string) (*Usage, error) {
+func NewObjectStorageAPI(site, bucket, key, secret string) *ObjectStorageAPI {
+	url := fmt.Sprintf("https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/%s/v2/buckets/%s/penalty", site, bucket)
+	return &ObjectStorageAPI{
+		url:    url,
+		key:    key,
+		secret: secret,
+	}
+}
+
+func (a *ObjectStorageAPI) GetUsage() (*Usage, error) {
 	req, err := http.NewRequest("GET", a.url, nil)
 	if err != nil {
 		return nil, err
 	}
-	req.SetBasicAuth(key, secret)
+	req.SetBasicAuth(a.key, a.secret)
 	client := &http.Client{}
 	var res Response
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	if resp.StatusCode == http.StatusOK {
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {

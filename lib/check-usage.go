@@ -17,9 +17,39 @@ var opts struct {
 	Bucket   *string `short:"b" long:"bucket" value-name:"BUCKET" description:"Choose a monitoring bucket"`
 }
 
+func ParseOption(args []string) (*checkers.Checker, *string, *string) {
+	key, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN")
+	if !ok {
+		return checkers.Unknown("SAKURA_API_ACCESS_TOKEN is not set"), nil, nil
+	}
+	secret, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN_SECRET")
+	if !ok {
+		return checkers.Unknown("SAKURA_API_ACCESS_TOKEN_SECRET is not set"), nil, nil
+	}
+	_, err := flags.ParseArgs(&opts, args)
+	if err != nil {
+		return checkers.Unknown(fmt.Sprintf("%s", err)), nil, nil
+	}
+	if opts.Site == nil {
+		return checkers.Unknown("site is required"), nil, nil
+	}
+	if opts.Bucket == nil {
+		return checkers.Unknown("bucket is required"), nil, nil
+	}
+	return nil, &key, &secret
+}
+
 // Do the plugin
 func Do() {
-	ckr := run(os.Args[1:])
+	args := os.Args[1:]
+	ckr, key, secret := ParseOption(args)
+	if ckr == nil && key != nil && secret != nil {
+		cli := NewObjectStorageAPI(*opts.Site, *opts.Bucket, *key, *secret)
+		r := &runner{
+			cli: cli,
+		}
+		ckr = r.Run()
+	}
 	ckr.Name = "Sakura Object Storage Usage"
 	ckr.Exit()
 }
@@ -40,27 +70,12 @@ func getFreePct(usage *Usage) float64 {
 	return float64(100) - usage.amount*100/usage.quota
 }
 
-func run(args []string) *checkers.Checker {
+type runner struct {
+	cli APIClient
+}
 
-	apiKey, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN")
-	if !ok {
-		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_TOKEN is not set"))
-	}
-	apiSecret, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN_SECRET")
-	if !ok {
-		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_TOKEN_SECRET is not set"))
-	}
-
-	_, err := flags.ParseArgs(&opts, args)
-	if err != nil {
-		os.Exit(1)
-	}
-	if opts.Site == nil {
-		return checkers.Unknown(fmt.Sprintf("site is required"))
-	}
-	cli := &APIClient{}
-	cli.SetURL(*opts.Site, *opts.Bucket)
-	usage, err := cli.GetUsage(apiKey, apiSecret)
+func (r *runner) Run() *checkers.Checker {
+	usage, err := r.cli.GetUsage()
 	if err != nil {
 		return checkers.Unknown(fmt.Sprintf("%s", err))
 	}
