@@ -11,12 +11,10 @@ import (
 )
 
 var opts struct {
-	Warning   *string `short:"w" long:"warning" value-name:"N%" description:"Exit with WARNING status if less than N% of bucket are free"`
-	Critical  *string `short:"c" long:"critical" value-name:"N%" description:"Exit with CRITICAL status if less than N% of bucket are free"`
-	Site      *string `short:"s" long:"site" value-name:"SITE" description:"Choose a site where monitored bucket"`
-	Bucket    *string `short:"b" long:"bucket" value-name:"BUCKET" description:"Choose a monitoring bucket"`
-	APIKey    *string `short:"k" long:"api_key" value-name:"APIKEY" description:"Sakura ObjectStorage API key"`
-	APISecret *string `short:"S" long:"api_secret" value-name:"APISECRET" description:"Sakura ObjectStorage API secret"`
+	Warning  *string `short:"w" long:"warning" value-name:"N%" description:"Exit with WARNING status if less than N% of bucket are free"`
+	Critical *string `short:"c" long:"critical" value-name:"N%" description:"Exit with CRITICAL status if less than N% of bucket are free"`
+	Site     *string `short:"s" long:"site" value-name:"SITE" description:"Choose a site where monitored bucket"`
+	Bucket   *string `short:"b" long:"bucket" value-name:"BUCKET" description:"Choose a monitoring bucket"`
 }
 
 // Do the plugin
@@ -43,6 +41,16 @@ func getFreePct(usage *Usage) float64 {
 }
 
 func run(args []string) *checkers.Checker {
+
+	apiKey, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN")
+	if !ok {
+		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_TOKEN is not set"))
+	}
+	apiSecret, ok := os.LookupEnv("SAKURA_API_ACCESS_SECRET")
+	if !ok {
+		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_SECRET is not set"))
+	}
+
 	_, err := flags.ParseArgs(&opts, args)
 	if err != nil {
 		os.Exit(1)
@@ -50,17 +58,8 @@ func run(args []string) *checkers.Checker {
 	if opts.Site == nil {
 		return checkers.Unknown(fmt.Sprintf("site is required"))
 	}
-	if opts.Bucket == nil {
-		return checkers.Unknown(fmt.Sprintf("bucket is required"))
-	}
-	if opts.APIKey == nil {
-		return checkers.Unknown(fmt.Sprintf("api_key is required"))
-	}
 
-	if opts.APISecret == nil {
-		return checkers.Unknown(fmt.Sprintf("api_secret is required"))
-	}
-	usage, err := GetUsage(*opts.Site, *opts.Bucket, *opts.APIKey, *opts.APISecret)
+	usage, err := GetUsage(*opts.Site, *opts.Bucket, apiKey, apiSecret)
 	if err != nil {
 		return checkers.Unknown(fmt.Sprintf("%w", err))
 	}
