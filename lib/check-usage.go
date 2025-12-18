@@ -77,6 +77,6 @@ func run(args []string) *checkers.Checker {
 			return checkers.Unknown(fmt.Sprintf("site:%s, bucket:%s: Failed to check usage status: %s", *opts.Site, *opts.Bucket, err))
 		}
 	}
-	msg := fmt.Sprintf("usage: site:%s, bucket:%s, current free: %f", *opts.Site, *opts.Bucket, getFreePct(usage))
+	msg := fmt.Sprintf("usage: site:%s, bucket:%s, current free: %f%%", *opts.Site, *opts.Bucket, getFreePct(usage))
 	return checkers.NewChecker(current, msg)
 }

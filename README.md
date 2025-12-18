@@ -21,7 +21,8 @@ go install github.com/u5surf/check-sakura-object-storage-usage@latest
 
 
 ```
-check-sakura-object-storage-usage --warning=10% --critical=5% --site=isk01 --bucket=foo --api_key=daed-beaf-foo-bar --api_secret=XXXXXXXXXXXXXX
+./check-sakura-object-storage-usage --warning=10% --critical=5% --site=isk01 --bucket=foo --api_key=daed-beaf-foo-bar --api_secret=XXXXXXXXXXXXXX
+Sakura Object Storage Usage OK: usage: site:isk01, bucket:foo, current free: 29.575990%
 ```
 `api_key`と`api_secret`は, [さくらのオブジェクトストレージ APIドキュメント-基本的な使い方-APIキーの発行](https://manual.sakura.ad.jp/api/cloud/objectstorage/#section/%E5%9F%BA%E6%9C%AC%E7%9A%84%E3%81%AA%E4%BD%BF%E3%81%84%E6%96%B9/API) を参考に入手します.
 `site`は, 石狩第1サイトならば、`isk01` を指定してください.
