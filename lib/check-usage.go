@@ -46,9 +46,9 @@ func run(args []string) *checkers.Checker {
 	if !ok {
 		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_TOKEN is not set"))
 	}
-	apiSecret, ok := os.LookupEnv("SAKURA_API_ACCESS_SECRET")
+	apiSecret, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN_SECRET")
 	if !ok {
-		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_SECRET is not set"))
+		return checkers.Unknown(fmt.Sprintln("SAKURA_API_ACCESS_TOKEN_SECRET is not set"))
 	}
 
 	_, err := flags.ParseArgs(&opts, args)
