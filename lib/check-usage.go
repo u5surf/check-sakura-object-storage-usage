@@ -58,10 +58,11 @@ func run(args []string) *checkers.Checker {
 	if opts.Site == nil {
 		return checkers.Unknown(fmt.Sprintf("site is required"))
 	}
-
-	usage, err := GetUsage(*opts.Site, *opts.Bucket, apiKey, apiSecret)
+	cli := &APIClient{}
+	cli.SetURL(*opts.Site, *opts.Bucket)
+	usage, err := cli.GetUsage(apiKey, apiSecret)
 	if err != nil {
-		return checkers.Unknown(fmt.Sprintf("%w", err))
+		return checkers.Unknown(fmt.Sprintf("%s", err))
 	}
 	current := checkers.OK
 	if current != checkers.CRITICAL && opts.Critical != nil {

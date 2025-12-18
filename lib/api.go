@@ -33,9 +33,16 @@ type Response struct {
 	Data Data `json:"data"`
 }
 
-func GetUsage(site, bucket, key, secret string) (*Usage, error) {
-	url := fmt.Sprintf("https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/%s/v2/buckets/%s/penalty", site, bucket)
-	req, err := http.NewRequest("GET", url, nil)
+type APIClient struct {
+	url string
+}
+
+func (a *APIClient) SetURL(site, bucket string) {
+	a.url = fmt.Sprintf("https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/%s/v2/buckets/%s/penalty", site, bucket)
+}
+
+func (a *APIClient) GetUsage(key, secret string) (*Usage, error) {
+	req, err := http.NewRequest("GET", a.url, nil)
 	if err != nil {
 		return nil, err
 	}
