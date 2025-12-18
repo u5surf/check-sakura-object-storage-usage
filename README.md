@@ -3,7 +3,7 @@
 ## Description
 Check free space of sakura object storage bucket.
 
-さくらのオブジェクトストレージにおけるバケット容量のチェックをするmackerel pluginです.
+さくらのオブジェクトストレージにおけるバケット容量のチェックをするmackerel check pluginです.
 
 ## Synopsis
 ```
@@ -34,7 +34,7 @@ Sakura Object Storage Usage OK: usage: site:isk01, bucket:foo, current free: 29.
 
 ## Setting for mackerel-agent
 
-If there are no problems in the execution result, add a setting in mackerel-agent.conf .
+mackerel check pluginとして、以下のように設定をすれば利用可能です.
 
 ```
 [plugin.checks.objectstorage-free]
@@ -45,7 +45,6 @@ timeout_seconds = 60
 max_check_attempts = 2
 ```
 
-## Usage
 ### Options
 
 ```
