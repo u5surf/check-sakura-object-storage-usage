@@ -15,8 +15,10 @@ check-sakura-object-storage-usage --warning=10% --critical=5% --site=isk01 --buc
 ## Installation
 
 まずはインストールします.
+[リリースページ](https://github.com/u5surf/check-sakura-object-storage-usage/releases/) からダウンロード
+もしくは, mkr コマンドにて以下を実施してください.
 ```
-go install github.com/u5surf/check-sakura-object-storage-usage@latest
+mkr plugin install u5surf/check-sakura-object-storage-usage
 ```
 
 次に、以下のようにコマンドを実行します.
