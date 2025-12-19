@@ -6,7 +6,7 @@ builds:
       - amd64
       - arm64
     env:
-      - CGO_ENABLED=0  
+      - CGO_ENABLED=0
 archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
