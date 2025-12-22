@@ -27,7 +27,7 @@ func TestGetUsage(t *testing.T) {
 	cli := &ObjectStorageAPI{
 		url:    testServer.URL,
 		key:    "SAKURACLOUD_ACCESS_TOKEN",
-		secret: "SAKURACLOUD_ACCESS_TOKEN_SECERT",
+		secret: "SAKURACLOUD_ACCESS_TOKEN_SECRET",
 	}
 
 	exp := &Usage{
