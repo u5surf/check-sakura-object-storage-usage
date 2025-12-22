@@ -18,17 +18,17 @@ var opts struct {
 }
 
 func ParseOption(args []string) (*checkers.Checker, *string, *string) {
-	key, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN")
-	if !ok {
-		return checkers.Unknown("SAKURA_API_ACCESS_TOKEN is not set"), nil, nil
-	}
-	secret, ok := os.LookupEnv("SAKURA_API_ACCESS_TOKEN_SECRET")
-	if !ok {
-		return checkers.Unknown("SAKURA_API_ACCESS_TOKEN_SECRET is not set"), nil, nil
-	}
 	_, err := flags.ParseArgs(&opts, args)
 	if err != nil {
 		return checkers.Unknown(fmt.Sprintf("%s", err)), nil, nil
+	}
+	key, ok := os.LookupEnv("SAKURACLOUD_ACCESS_TOKEN")
+	if !ok {
+		return checkers.Unknown("SAKURACLOUD_ACCESS_TOKEN is not set"), nil, nil
+	}
+	secret, ok := os.LookupEnv("SAKURACLOUD_ACCESS_TOKEN_SECRET")
+	if !ok {
+		return checkers.Unknown("SAKURACLOUD_ACCESS_TOKEN_SECRET is not set"), nil, nil
 	}
 	if opts.Site == nil {
 		return checkers.Unknown("site is required"), nil, nil
