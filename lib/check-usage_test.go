@@ -105,8 +105,8 @@ func TestParseOption(t *testing.T) {
 				opts.Critical = nil
 				opts.Site = nil
 				opts.Bucket = nil
-				t.Setenv("SAKURACLOUD_ACCESS_TOKEN", "SAKURACLOUD_ACCESS_TOKEN")
-				t.Setenv("SAKURACLOUD_ACCESS_TOKEN_SECRET", "SAKURACLOUD_ACCESS_TOKEN_SECRET")
+				t.Setenv("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN")
+				t.Setenv("SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_ACCESS_TOKEN_SECRET")
 			},
 			args: []string{
 				"-b",
@@ -121,8 +121,8 @@ func TestParseOption(t *testing.T) {
 				opts.Critical = nil
 				opts.Site = nil
 				opts.Bucket = nil
-				t.Setenv("SAKURACLOUD_ACCESS_TOKEN", "SAKURACLOUD_ACCESS_TOKEN")
-				t.Setenv("SAKURACLOUD_ACCESS_TOKEN_SECRET", "SAKURACLOUD_ACCESS_TOKEN_SECRET")
+				t.Setenv("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN")
+				t.Setenv("SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_ACCESS_TOKEN_SECRET")
 			},
 			args: []string{
 				"-s",
