@@ -22,13 +22,13 @@ func ParseOption(args []string) (*checkers.Checker, *string, *string) {
 	if err != nil {
 		return checkers.Unknown(fmt.Sprintf("%s", err)), nil, nil
 	}
-	key, ok := os.LookupEnv("SAKURACLOUD_ACCESS_TOKEN")
+	key, ok := os.LookupEnv("SAKURA_ACCESS_TOKEN")
 	if !ok {
-		return checkers.Unknown("SAKURACLOUD_ACCESS_TOKEN is not set"), nil, nil
+		return checkers.Unknown("SAKURA_ACCESS_TOKEN is not set"), nil, nil
 	}
-	secret, ok := os.LookupEnv("SAKURACLOUD_ACCESS_TOKEN_SECRET")
+	secret, ok := os.LookupEnv("SAKURA_ACCESS_TOKEN_SECRET")
 	if !ok {
-		return checkers.Unknown("SAKURACLOUD_ACCESS_TOKEN_SECRET is not set"), nil, nil
+		return checkers.Unknown("SAKURA_ACCESS_TOKEN_SECRET is not set"), nil, nil
 	}
 	if opts.Site == nil {
 		return checkers.Unknown("site is required"), nil, nil
