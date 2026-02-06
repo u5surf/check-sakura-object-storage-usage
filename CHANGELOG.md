@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.2.1](https://github.com/u5surf/check-sakura-object-storage-usage/compare/v0.2.0...v0.2.1) - 2026-02-06
+- Fix README by @u5surf in https://github.com/u5surf/check-sakura-object-storage-usage/pull/11
+
 ## [v0.2.0](https://github.com/u5surf/check-sakura-object-storage-usage/compare/v0.1.0...v0.2.0) - 2025-12-23
 - Change official environment prefix by @u5surf in https://github.com/u5surf/check-sakura-object-storage-usage/pull/9
 
