@@ -30,7 +30,9 @@ export SAKURA_ACCESS_TOKEN_SECRET=XXXXXXXXXXXXXX
 ./check-sakura-object-storage-usage --warning=10% --critical=5% --site=isk01 --bucket=foo
 Sakura Object Storage Usage OK: usage: site:isk01, bucket:foo, current free: 29.575990%
 ```
-環境変数 `SAKURA_ACCESS_TOKEN`と`SAKURA_ACCESS_TOKEN_SECRET`は, [さくらのオブジェクトストレージ APIドキュメント-基本的な使い方-APIキーの発行](https://manual.sakura.ad.jp/api/cloud/objectstorage/#section/%E5%9F%BA%E6%9C%AC%E7%9A%84%E3%81%AA%E4%BD%BF%E3%81%84%E6%96%B9/API) を参考に入手します.
+環境変数 `SAKURA_ACCESS_TOKEN`と`SAKURA_ACCESS_TOKEN_SECRET`は, [APIキー | さくらのクラウド マニュアル](https://manual.sakura.ad.jp/cloud/api/apikey.html) を参考に入手します.
+APIキーを発行する際に, サービスへのアクセス権で「オブジェクトストレージ」を選択してください.
+
 `site`は, 石狩第1サイトならば、`isk01` を指定してください.
 `bucket`は, 監視したいバケット名を指定してください.
 
@@ -57,5 +59,5 @@ max_check_attempts = 2
 ```
 
 ## For more information
-Please refer to the following.
-- Execute `check-sakura-object-storage-usage -h` and you can get command line options.
+- `check-sakura-object-storage-usage -h` を実行することで、コマンドラインオプションを取得できます.
+- このプラグインは, さくらのオブジェクトストレージ APIを使用しています。詳しいAPIドキュメントはこちらを参照ください. [さくらのオブジェクトストレージ APIドキュメント](https://manual.sakura.ad.jp/api/cloud/objectstorage/)
